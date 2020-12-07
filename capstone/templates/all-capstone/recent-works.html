@@ -1,0 +1,31 @@
+{%extends 'all-capstone/base.html'%}
+
+{% block content %}
+<div id="portfolio" class="portfolio-area section-padding">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header">
+                    <h2>Recent Works</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for work in works %}
+                <div class="col-md-4 col-sm-4 col-xs-12 no-padding">
+                    <div class="gallery-items">
+                        <a class="view img" href="{{ media.image.url }}">
+                            <img src="{{ media.image.url }}" alt="work image">
+                        </a>
+
+                        <div class="gallery-text">
+                            <h2>{{ work.title }}</h2>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
