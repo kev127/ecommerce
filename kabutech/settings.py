@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'capstone.apps.CapstoneConfig',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
