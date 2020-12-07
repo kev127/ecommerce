@@ -6,3 +6,6 @@ def welcome(request):
 
 def home(request):
     return render(request, 'all-capstone/home.html')
+
+def about(request):
+    return render(request, 'all-capstone/about.html')
