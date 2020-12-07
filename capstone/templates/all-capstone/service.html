@@ -1,0 +1,23 @@
+<div id="services" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-header text-center">
+                    <h2>Services I offer</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% for service in services %}
+
+                <div class="col-md-4 col-sm-4">
+                    <div class="single-service wow fadeInDown" data-wow-delay="0.2s">
+                        <i class="icon icon-wallet"></i>
+                        <h2>{{ service.name }}</h2>
+                        <p>{{ service.description }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
