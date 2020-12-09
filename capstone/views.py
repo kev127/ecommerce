@@ -11,7 +11,9 @@ def about(request):
     return render(request, 'all-capstone/about.html')
 
 def service(request):
-    service = Service.objects.all()
-    return render(request, 'all-capstone/service.html',{"service":service})
+    return render(request, 'all-capstone/service.html')
+
+def recent(request):
+    return render(request, 'all-capstone/recent-works.html')
 
 
