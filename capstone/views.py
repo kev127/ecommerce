@@ -9,3 +9,9 @@ def home(request):
 
 def about(request):
     return render(request, 'all-capstone/about.html')
+
+def service(request):
+    service = Service.objects.all()
+    return render(request, 'all-capstone/service.html',{"service":service})
+
+
