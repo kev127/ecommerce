@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
+from django.views import View
 from .models import Service, RecentWork, Product, Customer, Order
+from django.http  import HttpResponse,Http404
 
 # Create your views here.
 def welcome(request):
@@ -7,7 +9,6 @@ def welcome(request):
 
 def home(request):
     return render(request, 'all-capstone/home.html')
-
 
 def about(request):
     return render(request, 'all-capstone/about.html')
@@ -22,7 +23,8 @@ def contacts(request):
     return render(request, 'all-capstone/contacts.html')
 
 def shop(request):
-    def get(self,request):
+
+	def get(self,request):
 		cart = request.session.get('cart')
 		products = Product.getAllProduct().order_by('-id')
 
@@ -33,8 +35,11 @@ def shop(request):
 		if not cart:
 			request.session['cart'] = {}
 
-		
-		return render( request, 'all-capstone/shop.html',{"products":products)
+		if request.GET.get('category_id'):
+			filterProduct = Product.getProductByFilter(request.GET['category_id'])
+			return render(request, 'all-capstone/shop.html',{"products":filterProduct,})
+
+		return render(request, 'all-capstone/shop.html',{"products":products})
 
 	def post(self,request):
 		product = request.POST.get('product')
@@ -53,6 +58,7 @@ def shop(request):
 		print(cart)
 		request.session['cart'] = cart
 		return redirect('cart')
+
 
 class OrderView(View):
 	def get(self,request):

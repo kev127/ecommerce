@@ -1,0 +1,1 @@
+web: gunicorn kabutech.wsgi --log-file -
