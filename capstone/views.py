@@ -16,4 +16,7 @@ def service(request):
 def recent(request):
     return render(request, 'all-capstone/recent-works.html')
 
+def contacts(request):
+    return render(request, 'all-capstone/contacts.html')
+
 
