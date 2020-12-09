@@ -236,24 +236,19 @@ h2{
     font-size: 14px;
 
 }
-.thumbnail{
-	width: 50px;
-	height: 200px;
-	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
-    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
-    box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+.btn-product{
+    width: 100%;
 }
 
-.product{
-	border-radius: 0 0 4px 4px;
+.list-group {
+	font-size:14px;
 }
 
-.bg-dark{
-	background-color: #4f868c!important;
+.product-card {
+    height: 400px;
+    width: 300px;
 }
-.box-element{
-	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
-	background-color: #fff;
-	border-radius: 4px;
-	padding: 10px;
+
+.product-card img {
+    height: 200px;
 }
