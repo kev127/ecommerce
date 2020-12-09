@@ -9,7 +9,7 @@ class Service(models.Model):
 
 class RecentWork(models.Model):
     title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="media")
+    image = models.ImageField(upload_to="media/recent")
 
     def __str__(self):
         return self.title
@@ -17,9 +17,8 @@ class RecentWork(models.Model):
 class Product(models.Model):
 	name = models.CharField(max_length=220)
 	price = models.IntegerField(default=0)
-	category = models.ForeignKey(Category,on_delete=models.CASCADE,default=1)
 	description = models.TextField()
-	image = models.ImageField(upload_to='upload/products')
+	image = models.ImageField(upload_to='media/products')
 	date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
@@ -40,13 +39,20 @@ class Product(models.Model):
 	def getProductById(productList):
 		return Product.objects.filter(id__in=productList)
 
-class Category(models.Model):
-	name = models.CharField(max_length=20)
+class Customer(models.Model):
+	name = models.CharField(max_length=50)
+	email = models.EmailField(max_length=255)
+	phone = models.CharField(max_length=15)
+	password = models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.name
 
 
 	@staticmethod
-	def getAllCategory():
-		return Category.objects.all()
+	def emailExits(userEmail):
+		try:
+			email = Customer.objects.get(email=userEmail)
+			return email
+		except:
+			return False
