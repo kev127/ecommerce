@@ -10,11 +10,9 @@
                 <li><a class="smooth-menu" href="{% url 'recent' %}">Recent Works</a></li>
                 <li><a class="smooth-menu" href="{% url 'shop' %}">Shop</a></li>
                 <li><a class="smooth-menu" href="">Order</a></li>
-                <li><a class="nav-link" href="">Cart
-                    <span class="badge badge-info">{{ request.session.cart.keys|length }}</span>
-                    </a><li>
-                <li><a href="">Logout</a></li>
-            </ul>
+                <li><a class="nav-link" href="">Cart<span class="badge badge-info">{{ request.session.cart.keys|length }}</span></a><li>
+                <li><a href="/accounts/login">Login</a></li>
+            </li>
         </div>
     </div>
 </nav>

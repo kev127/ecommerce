@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views import View
 from .models import Service, RecentWork, Product, Customer, Order
 from django.http  import HttpResponse,Http404
-from django.contrib.auth.decorators import login_required.
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def welcome(request):
@@ -67,7 +67,7 @@ class OrderView(View):
 		customer_id = request.session.get('customer')
 		orders = Order.objects.filter(customer=customer_id).order_by("-date").order_by("-id")
 		print(orders)
-		return render(request,'order.html',{"orders":orders})
+		return render(request,'all-capstone/order.html',{"orders":orders})
 
 class Checkout(View):
 	def get(self,request):
@@ -94,3 +94,72 @@ class Checkout(View):
 
 		request.session['cart'] = {}
 		return redirect('order')
+
+class Signup(View):
+
+	def get(self,request):
+		return render(request,'registration/registration_form.html')
+			
+	def post(self,request):
+		userData = request.POST
+		# validate
+		error = self.validateData(userData)
+		if error :
+			return render(request,'registration/registration_form.html',{"error":error,"userData":userData})
+		else:
+			if Customer.emailExits(userData['email']):
+				error["emailExits_error"] = "Email Already Exits"
+				return render(request,'registration/registration_form.html',{"error":error,"userData":userData})
+			else:
+				customer = Customer(
+					name=userData['name'],
+					email=userData['email'],
+					phone=userData['phone'],
+					password=make_password(userData['password']),
+				)
+				customer.save()
+				return redirect('home')
+
+	# Validate form method
+	def validateData(self,userData):
+		error = {}
+		if not userData['name'] or not userData['email']  or not userData['phone']  or not userData['password'] or not userData['confirm_password']:
+			error["field_error"] = "All field must be required"
+		elif len(userData['password'])<8 and len(userData['confirm_password'])<8 :
+			error['minPass_error'] = "Password must be 8 char"
+		elif len(userData['name']) > 25 or len(userData['name']) < 3 :
+			error["name_error"] = "Name must be 3-25 charecter"
+		elif len(userData['phone']) != 11:
+			error["phoneNumber_error"] = "Phone number must be 11 charecter."
+		elif userData['password'] != userData['confirm_password']:
+			error["notMatch_error"] = "Password doesn't match"	
+
+		return error
+
+class login(View):
+	return_url = None
+
+	def get(self,request):
+		Login.return_url = request.GET.get('return_url')
+		return render(request,'registration/login.html')
+
+	def post(self,request):
+		userData = request.POST
+		customerEmail = Customer.emailExits(userData["email"])
+		if customerEmail:
+			if check_password(userData["password"],customerEmail.password):
+				request.session["customer"] = customerEmail.id
+				if Login.return_url:
+					return HttpResponseRedirect(Login.return_url)
+				else:
+					Login.return_url = None
+					return redirect('home')
+			else:
+				return render(request,'registration/login.html',{"userData":userData,"error":"Email or password doesn't match"})
+		else:
+			return render(request,'registration/login.html',{"userData":userData,"error":"Email or password doesn't match"})
+
+
+def logout(request):
+	request.session.clear()
+	return redirect('home')
