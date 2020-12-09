@@ -19,4 +19,7 @@ def recent(request):
 def contacts(request):
     return render(request, 'all-capstone/contacts.html')
 
+def shop(request):
+    context = {}
+    return render(request, 'all-capstone/shop.html')
 
