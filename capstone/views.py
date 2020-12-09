@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.views import View
 from .models import Service, RecentWork, Product, Customer, Order
 from django.http  import HttpResponse,Http404
+from django.contrib.auth.decorators import login_required.
 
 # Create your views here.
 def welcome(request):
@@ -22,6 +23,7 @@ def recent(request):
 def contacts(request):
     return render(request, 'all-capstone/contacts.html')
 
+@login_required(login_url='/accounts/login/')
 def shop(request):
 
 	def get(self,request):
