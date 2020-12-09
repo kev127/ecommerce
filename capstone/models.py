@@ -17,6 +17,7 @@ class RecentWork(models.Model):
 class Product(models.Model):
 	name = models.CharField(max_length=220)
 	price = models.IntegerField(default=0)
+	category = models.ForeignKey(Category,on_delete=models.CASCADE,default=1)
 	description = models.TextField()
 	image = models.ImageField(upload_to='upload/products')
 	date = models.DateTimeField(auto_now_add=True)
@@ -38,3 +39,14 @@ class Product(models.Model):
 	@staticmethod
 	def getProductById(productList):
 		return Product.objects.filter(id__in=productList)
+
+class Category(models.Model):
+	name = models.CharField(max_length=20)
+
+	def __str__(self):
+		return self.name
+
+
+	@staticmethod
+	def getAllCategory():
+		return Category.objects.all()
