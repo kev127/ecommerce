@@ -19,4 +19,5 @@ from django.urls import include,path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('capstone.urls')),
+    path('accounts/', include('registration.backends.simple.urls')),
 ]
