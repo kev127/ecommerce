@@ -7,7 +7,7 @@
             <ul class="nav navbar-nav">
                 <li><a class="smooth-menu" href="{% url 'home' %}">Home</a></li>
                 <li><a class="smooth-menu" href="{% url 'shop' %}">Shop</a></li>
-                <li><a class="smooth-menu" href="">Order</a></li>
+                <li><a class="smooth-menu" href="% url 'order' %}"">Order</a></li>
                 <li><a class="nav-link" href="{% url 'cart' %}">Cart<span class="badge badge-info">{{ request.session.cart.keys|length }}</span></a><li>
                 {% if user.is_authenticated %}
                 <ul>
