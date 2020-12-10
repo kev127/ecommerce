@@ -1,9 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.views import View
-from .models import Service, RecentWork, Product, Customer, Order
+from .models import Service, RecentWork, Product, Customer, Order, Category
 from django.http  import HttpResponse,Http404
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 def welcome(request):
@@ -24,25 +24,25 @@ def recent(request):
 def contacts(request):
     return render(request, 'all-capstone/contacts.html')
 
-@login_required(login_url='/accounts/login/')
-class shop(View):
+class Shop(View):
 
 	def get(self,request):
 		cart = request.session.get('cart')
+		categories = Category.getAllCategory()
 		products = Product.getAllProduct().order_by('-id')
 
 		if request.GET.get('id'):
 			filterProductById = Product.objects.get(id=int(request.GET.get('id')))
-			return render(request, 'all-capstone/products.html',{"product":filterProductById})
+			return render(request, 'all-capstone/products.html',{"product":filterProductById,"categories":categories})
 
 		if not cart:
 			request.session['cart'] = {}
 
 		if request.GET.get('category_id'):
 			filterProduct = Product.getProductByFilter(request.GET['category_id'])
-			return render(request, 'all-capstone/shop.html',{"products":filterProduct,})
+			return render(request, 'all-capstone/shop.html',{"products":filterProduct,"categories":categories})
 
-		return render(request, 'all-capstone/shop.html',{"products":products})
+		return render(request, 'all-capstone/shop.html',{"products":products,"categories":categories})
 
 	def post(self,request):
 		product = request.POST.get('product')
@@ -62,17 +62,13 @@ class shop(View):
 		request.session['cart'] = cart
 		return redirect('cart')
         
-         
-class OrderView(View):
+class Order(View):
 	def get(self,request):
 		customer_id = request.session.get('customer')
-		orders = Order.objects.filter(customer=customer_id).order_by("-date").order_by("-id")
-		print(orders)
-		return render(request,'all-capstone/order.html',{"orders":orders})
+		return render(request,'all-capstone/order.html')
 
 class Cart(View):
 	def get(self,request):
-		productList = list(request.session.get('cart').keys())
 		if request.GET.get('increase'):
 			pId = request.GET.get('increase')
 			products = request.session.get('cart')
@@ -93,8 +89,7 @@ class Cart(View):
 				productList = list(request.session.get('cart').keys())
 				
 
-		allProduct = Product.getProductById(productList)
-		return render(request,'all-capstone/cart.html',{"allProduct":allProduct})
+		return render(request,'all-capstone/cart.html')
 
 class Checkout(View):
 	def get(self,request):
@@ -147,6 +142,7 @@ class signup(View):
 				customer.save()
 				return redirect('home')
 
+
 class login(View):
 	return_url = None
 
@@ -169,6 +165,7 @@ class login(View):
 				return render(request,'registration/login.html',{"userData":userData,"error":"Email or password doesn't match"})
 		else:
 			return render(request,'registration/login.html',{"userData":userData,"error":"Email or password doesn't match"})
+
 
 
 def logout(request):

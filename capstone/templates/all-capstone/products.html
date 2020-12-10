@@ -1,5 +1,5 @@
 {%extends 'all-capstone/base.html'%}
-
+{% load cart%}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -19,7 +19,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" value="{{ product.id }}" name="product">
                                         {% if product|is_in_cart:request.session.cart %}
-                                        <a class="btn btn-warning" href="/cart">Go to cart </a>
+                                        <a class="btn btn-warning" href="{% url 'cart' %}">Go to cart </a>
                                         {% else %}
                                         <input class="btn btn-primary" type="submit" value="Add to cart">
                                         {% endif %}

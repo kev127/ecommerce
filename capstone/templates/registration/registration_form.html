@@ -11,29 +11,38 @@
         <div class="panel panel-default">
   
           <div class="panel-heading">
-            <h3 class="text-center">Sign Up</h3>
+            <h3 class="text-center">Register</h3>
           </div>
           <div class="panel-body">
   
             <form  action="/accounts/register/" method="post">
-              {% csrf_token %}
-              {% bootstrap_form form %}
-              <div class="form-group">
-                <input type="submit" class="btn btn-primary btn-sm" value="Sign Up">
-              </div>
-  
-              <input type="hidden" name="next" value="{{next}}">
-  
+                
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input value="{{ userData.name }}" name="name" type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input value="{{ userData.email }}" name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone number</label>
+                    <input value="{{ userData.phone }}" name="phone" type="number" class="form-control" id="phone" placeholder="Enter Phone Number">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Enter Password">
+                    
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input name="confirm_password" type="password" class="form-control" id="confirm_password" placeholder="Enter Password">
+                
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
             </form>
-  
-          </div>
-  
         </div>
-  
-      </div>
-      <!-- empty div -->
-      <div class="col-md-4"></div>
     </div>
-  </div>
-  
-  {% endblock %}
+</div>
+{% endblock %}

@@ -10,8 +10,10 @@ urlpatterns=[
     path('service/',views.service,name = 'service'),
     path('recent/',views.recent,name = 'recent'),
     path('conatcts/',views.contacts,name = 'contacts'),
-    path('shop/',views.shop, name='shop'),
-    path('cart/',views.Cart, name='cart'),
-    path('login/',views.login,name = 'login'),
+    path('shop/',views.Shop.as_view(), name='shop'),
+    path('cart/',views.Cart.as_view(), name='cart'),
+    path('login/',views.login.as_view(), name='login'),
     path('signup/',views.signup,name = 'signup'),
+    path('checkout/',views.Checkout.as_view(), name='checkout'),
+    path('order/',views.Order.as_view(), name='order'),
 ]

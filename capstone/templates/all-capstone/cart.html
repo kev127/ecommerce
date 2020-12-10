@@ -22,13 +22,11 @@
                     <td>{{ forloop.counter }}</td>
                     <td><img height="80px" width="100px" src="{{ product.image.url }}" alt=""></td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.price|currency }}</td>
-                    <td>{{ product|cart_quantity:request.session.cart }}</td>
+                    <td>{{ product.price }}</td>
                     <td>
                     	<a href="cart?increase={{ product.id }}" class="btn btn-sm btn-warning">+</a>
                         <a href="cart?decrease={{ product.id }}" class="btn btn-sm btn-danger">-</a>
                     </td>
-                    <th>{{ product|price_subtotal:request.session.cart|currency }}</th>
 
                 </tr>
                 {% endfor %}
@@ -37,7 +35,7 @@
             	<tr>
             		<td colspan="5"></td>
             		<td colspan="1"><strong>Total : </strong></td>
-            		<td>{{ allProduct|price_total:request.session.cart|currency }}</td>
+            	
             	</tr>
             </tfoot>
         </table>
