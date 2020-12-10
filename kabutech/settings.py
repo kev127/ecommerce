@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import six
 import django_heroku
 import dj_database_url
 from decouple import config, Csv 
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'capstone.apps.CapstoneConfig',
     'bootstrap3',
+    'six',
 ]
 
 MIDDLEWARE = [

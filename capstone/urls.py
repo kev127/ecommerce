@@ -10,7 +10,8 @@ urlpatterns=[
     path('service/',views.service,name = 'service'),
     path('recent/',views.recent,name = 'recent'),
     path('conatcts/',views.contacts,name = 'contacts'),
-    path('shop/',views.shop,name = 'shop'),
+    path('shop/',views.shop, name='shop'),
+    path('cart/',views.Cart, name='cart'),
     path('login/',views.login,name = 'login'),
-    path('cart',Cart.as_view(), name='cart'),
+    path('signup/',views.signup,name = 'signup'),
 ]

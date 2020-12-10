@@ -6,13 +6,32 @@
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
             <ul class="nav navbar-nav">
                 <li><a class="smooth-menu" href="{% url 'home' %}">Home</a></li>
-                <li><a class="smooth-menu" href="{% url 'service' %}">Services</a></li>
-                <li><a class="smooth-menu" href="{% url 'recent' %}">Recent Works</a></li>
                 <li><a class="smooth-menu" href="{% url 'shop' %}">Shop</a></li>
                 <li><a class="smooth-menu" href="">Order</a></li>
-                <li><a class="nav-link" href="">Cart<span class="badge badge-info">{{ request.session.cart.keys|length }}</span></a><li>
-                <li><a href="/accounts/login">Login</a></li>
-            </li>
+                <li><a class="nav-link" href="{% url 'cart' %}">Cart<span class="badge badge-info">{{ request.session.cart.keys|length }}</span></a><li>
+                {% if user.is_authenticated %}
+                <ul>
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                                <span class="caret"></span>
+                            </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                        <a href="/accounts/password/change">Change Password</a>
+                        </li>
+                        <li>
+                        <a href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                    </li>
+                </ul>
+                {% else %}
+                <li>
+                    <a class='btn btn-default' href="/accounts/login">Login</a>
+                </li>
+    
+                {% endif %}   
+            </ul>
         </div>
     </div>
 </nav>

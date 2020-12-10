@@ -3,6 +3,7 @@ from django.views import View
 from .models import Service, RecentWork, Product, Customer, Order
 from django.http  import HttpResponse,Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def welcome(request):
@@ -24,7 +25,7 @@ def contacts(request):
     return render(request, 'all-capstone/contacts.html')
 
 @login_required(login_url='/accounts/login/')
-def shop(request):
+class shop(View):
 
 	def get(self,request):
 		cart = request.session.get('cart')
@@ -60,14 +61,40 @@ def shop(request):
 		print(cart)
 		request.session['cart'] = cart
 		return redirect('cart')
-
-
+        
+         
 class OrderView(View):
 	def get(self,request):
 		customer_id = request.session.get('customer')
 		orders = Order.objects.filter(customer=customer_id).order_by("-date").order_by("-id")
 		print(orders)
 		return render(request,'all-capstone/order.html',{"orders":orders})
+
+class Cart(View):
+	def get(self,request):
+		productList = list(request.session.get('cart').keys())
+		if request.GET.get('increase'):
+			pId = request.GET.get('increase')
+			products = request.session.get('cart')
+			products[pId] += 1
+			request.session['cart'] = products
+
+		if request.GET.get('decrease'):
+			pId = request.GET.get('decrease')
+			products = request.session.get('cart')
+			print(products[pId])
+			if products[pId] > 1:
+				products[pId] -= 1
+				request.session['cart'] = products
+				productList = list(request.session.get('cart').keys())
+			else :
+				del products[pId]
+				request.session['cart'] = products
+				productList = list(request.session.get('cart').keys())
+				
+
+		allProduct = Product.getProductById(productList)
+		return render(request,'all-capstone/cart.html',{"allProduct":allProduct})
 
 class Checkout(View):
 	def get(self,request):
@@ -95,7 +122,7 @@ class Checkout(View):
 		request.session['cart'] = {}
 		return redirect('order')
 
-class Signup(View):
+class signup(View):
 
 	def get(self,request):
 		return render(request,'registration/registration_form.html')
@@ -119,22 +146,6 @@ class Signup(View):
 				)
 				customer.save()
 				return redirect('home')
-
-	# Validate form method
-	def validateData(self,userData):
-		error = {}
-		if not userData['name'] or not userData['email']  or not userData['phone']  or not userData['password'] or not userData['confirm_password']:
-			error["field_error"] = "All field must be required"
-		elif len(userData['password'])<8 and len(userData['confirm_password'])<8 :
-			error['minPass_error'] = "Password must be 8 char"
-		elif len(userData['name']) > 25 or len(userData['name']) < 3 :
-			error["name_error"] = "Name must be 3-25 charecter"
-		elif len(userData['phone']) != 11:
-			error["phoneNumber_error"] = "Phone number must be 11 charecter."
-		elif userData['password'] != userData['confirm_password']:
-			error["notMatch_error"] = "Password doesn't match"	
-
-		return error
 
 class login(View):
 	return_url = None
