@@ -69,6 +69,7 @@ class Order(View):
 
 class Cart(View):
 	def get(self,request):
+		productList = list(request.session.get('cart').keys())
 		if request.GET.get('increase'):
 			pId = request.GET.get('increase')
 			products = request.session.get('cart')
@@ -89,7 +90,8 @@ class Cart(View):
 				productList = list(request.session.get('cart').keys())
 				
 
-		return render(request,'all-capstone/cart.html')
+		allProduct = Product.getProductById(productList)
+		return render(request,'all-capstone/cart.html',{"allProduct":allProduct})
 
 class Checkout(View):
 	def get(self,request):
