@@ -1,46 +1,24 @@
 <nav class="navbar navbar-custom navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand page-scroll" href="/"> KABUTECH ENTERPRISES LIMITED<span></span> </a>
+            <a class="navbar-brand page-scroll" href="/"> KABUTECH LIMITED<span></span> </a>
         </div>
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
             <ul class="nav navbar-nav">
                 <li><a class="smooth-menu" href="{% url 'home' %}">Home</a></li>
                 <li><a class="smooth-menu" href="{% url 'shop' %}">Shop</a></li>
                 <li><a class="smooth-menu" href="{% url 'order' %}">Order</a></li>
-                <li><a class="nav-link" href="{% url 'cart' %}">Cart<span class="badge badge-info">{{ request.session.cart.keys|length }}</span></a><li>
-                {% if user.is_authenticated %}
-                <ul>
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                                <span class="caret"></span>
-                            </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                        <a href="/accounts/password/change">Change Password</a>
-                        </li>
-                        <li>
-                        <a href="/logout">Logout</a>
-                        </li>
-                    </ul>
-                    </li>
-                </ul>
+                <li><a class="smooth-menu" href="{% url 'cart' %}">Cart</a><li>
+                {% if request.session.customer %} 
+                <li><a class="smooth-menu" href="/logout">Logout</a></li> 
                 {% else %}
-                <li>
-                    <a class='btn btn-default' href="/accounts/login">Login</a>
-                </li>
-    
-                {% endif %}   
+                <li><a class="smooth-menu" href="/signup">Signup</a></li>
+                <li><a class="smooth-menu" href="/login">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-<!-- <div class="footer-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-                <p>&copy;Copyright 2020</p>
-            </div>
-        </div>
-    </div>
-</div> -->
+{% if signupSuccess %}
+{{ signupSuccess }}
+{% endif %}

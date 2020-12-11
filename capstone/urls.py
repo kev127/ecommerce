@@ -11,9 +11,11 @@ urlpatterns=[
     path('recent/',views.recent,name = 'recent'),
     path('conatcts/',views.contacts,name = 'contacts'),
     path('shop/',views.Shop.as_view(), name='shop'),
-    path('cart/',views.Cart.as_view(), name='cart'),
+    path('cart/',views.cart.as_view(), name='cart'),
     path('login/',views.login.as_view(), name='login'),
-    path('signup/',views.signup,name = 'signup'),
+    path('signup',views.signup.as_view(), name = 'signup'),
     path('checkout/',views.Checkout.as_view(), name='checkout'),
     path('order/',views.Order.as_view(), name='order'),
 ]
+if settings.DEBUG:
+    urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

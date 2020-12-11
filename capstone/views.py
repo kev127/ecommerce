@@ -29,7 +29,7 @@ class Shop(View):
 	def get(self,request):
 		cart = request.session.get('cart')
 		categories = Category.getAllCategory()
-		products = Product.getAllProduct().order_by('-id')
+		products = Product.getAllProduct().order_by()
 
 		if request.GET.get('id'):
 			filterProductById = Product.objects.get(id=int(request.GET.get('id')))
@@ -67,7 +67,7 @@ class Order(View):
 		customer_id = request.session.get('customer')
 		return render(request,'all-capstone/order.html')
 
-class Cart(View):
+class cart(View):
 	def get(self,request):
 		productList = list(request.session.get('cart').keys())
 		if request.GET.get('increase'):
@@ -144,12 +144,28 @@ class signup(View):
 				customer.save()
 				return redirect('home')
 
+	# Validate form method
+	def validateData(self,userData):
+		error = {}
+		if not userData['name'] or not userData['email']  or not userData['phone']  or not userData['password'] or not userData['confirm_password']:
+			error["field_error"] = "All field must be required"
+		elif len(userData['password'])<8 and len(userData['confirm_password'])<8 :
+			error['minPass_error'] = "Password must be 8 char"
+		elif len(userData['name']) > 25 or len(userData['name']) < 3 :
+			error["name_error"] = "Name must be 3-25 charecter"
+		elif len(userData['phone']) != 11:
+			error["phoneNumber_error"] = "Phone number must be 11 charecter."
+		elif userData['password'] != userData['confirm_password']:
+			error["notMatch_error"] = "Password doesn't match"	
+
+		return error
+
 
 class login(View):
 	return_url = None
 
 	def get(self,request):
-		Login.return_url = request.GET.get('return_url')
+		login.return_url = request.GET.get('return_url')
 		return render(request,'registration/login.html')
 
 	def post(self,request):
@@ -158,18 +174,15 @@ class login(View):
 		if customerEmail:
 			if check_password(userData["password"],customerEmail.password):
 				request.session["customer"] = customerEmail.id
-				if Login.return_url:
-					return HttpResponseRedirect(Login.return_url)
+				if login.return_url:
+					return HttpResponseRedirect(login.return_url)
 				else:
-					Login.return_url = None
+					login.return_url = None
 					return redirect('home')
 			else:
 				return render(request,'registration/login.html',{"userData":userData,"error":"Email or password doesn't match"})
 		else:
 			return render(request,'registration/login.html',{"userData":userData,"error":"Email or password doesn't match"})
 
-
-
 def logout(request):
 	request.session.clear()
-	return redirect('home')

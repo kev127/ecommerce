@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        {% if request.session.cart %}
+       
         <h1 class="font-weight-light">Cart</h1>
         <table class="table table-hover">
             <thead>
@@ -49,9 +49,9 @@
           Checkout
         </button>
     </div>
-    {% else %}
+   
         <h1 class="font-weight-light text-center">No cart added</h1>
-    {% endif %}
+    
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
